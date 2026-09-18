@@ -58,7 +58,7 @@ export default function EventDetailPage() {
       <section className="section-pad compact-process">
         <div className="shell">
           <SectionIntro eyebrow="Come lavoriamo" title="Dal primo incontro alla regia sul posto." />
-          <div className="compact-process-grid">{processSteps.map((step) => <div key={step.index}><span>{step.index}</span><h3>{step.title}</h3><p>{step.text}</p></div>)}</div>
+          <div className="compact-process-grid">{processSteps.map((step) => <div key={step.index}><i aria-hidden="true" /><h3>{step.title}</h3><p>{step.text}</p></div>)}</div>
         </div>
       </section>
       <ClosingCta title={`Parliamo del tuo progetto ${category.label.toLowerCase()}.`} />

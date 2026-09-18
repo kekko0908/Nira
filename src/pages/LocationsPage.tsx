@@ -1,65 +1,91 @@
-import { ArrowUpRight, CloudRain, DoorOpen, Music2, UsersRound, UtensilsCrossed, Waypoints } from 'lucide-react'
+import { ArrowDown, ArrowUpRight, CloudRain, DoorOpen, Music2, UsersRound, UtensilsCrossed, Waypoints } from 'lucide-react'
+import { motion, useReducedMotion } from 'motion/react'
 import { Link } from 'react-router-dom'
 import { LocationIcon } from '../components/BrandIcon'
 import { ClosingCta, PageMeta, Reveal, SectionIntro } from '../components/Shared'
 import { locations } from '../data/content'
 
 const checks = [
-  { icon: UsersRound, title: 'Capienza e flussi', text: 'Ospiti, tavoli, aree di passaggio, guardaroba e momenti in piedi.' },
-  { icon: DoorOpen, title: 'Accessi e montaggio', text: 'Ingresso fornitori, tempi di allestimento, scarico e chiusura.' },
-  { icon: CloudRain, title: 'Piano meteo', text: 'Spazi interni, coperture e tempi per decidere una configurazione alternativa.' },
-  { icon: Music2, title: 'Audio e orari', text: 'Impianti presenti, limiti acustici, musica dal vivo e termine della serata.' },
-  { icon: UtensilsCrossed, title: 'Food e servizio', text: 'Cucina, catering, beverage, personale e disposizione operativa.' },
-  { icon: Waypoints, title: 'Arrivi e transfer', text: 'Parcheggio, navette, partenze, accessibilità e rientro degli ospiti.' },
+  { icon: UsersRound, title: 'Capienza e flussi', text: 'Ospiti, tavoli, passaggi e momenti in piedi devono convivere senza attriti.' },
+  { icon: DoorOpen, title: 'Accessi e montaggio', text: 'Studiamo ingressi, scarico, tempi di allestimento e uscita dei fornitori.' },
+  { icon: CloudRain, title: 'Piano meteo', text: 'Lo scenario alternativo viene progettato prima, non improvvisato il giorno dell’evento.' },
+  { icon: Music2, title: 'Audio e orari', text: 'Impianti, limiti acustici e durata della serata entrano nel progetto fin dall’inizio.' },
+  { icon: UtensilsCrossed, title: 'Food e servizio', text: 'Cucina, catering e disposizione operativa devono sostenere il ritmo dell’esperienza.' },
+  { icon: Waypoints, title: 'Arrivi e transfer', text: 'Parcheggio, navette e accessibilità rendono semplice ciò che l’ospite non deve notare.' },
 ]
 
 export default function LocationsPage() {
+  const reducedMotion = useReducedMotion()
+
   return (
     <>
-      <PageMeta title="Location" description="Categorie di location selezionate da NIRA tra Napoli, Campi Flegrei e Campania." />
+      <PageMeta title="Location" description="NIRA seleziona location per eventi tra Napoli, Campi Flegrei e Campania." />
 
-      <header className="locations-page-hero">
-        <div className="shell locations-page-copy">
-          <p className="eyebrow eyebrow-light">Location in Campania</p>
-          <h1>Lo spazio deve funzionare prima di sorprendere.</h1>
-          <p>Partiamo da ospiti, programma e logistica. Poi valutiamo atmosfera, servizi e margini di personalizzazione.</p>
-        </div>
-        <div className="location-hero-film" aria-label="Tipologie di location rappresentative">
-          {locations.map((location) => <figure key={location.slug}><img src={location.image} alt={location.imageAlt} fetchPriority="high" /><figcaption>{location.title}</figcaption></figure>)}
+      <header className="location-cinema-hero">
+        <motion.img
+          src="/images/villa.webp"
+          alt="Interno luminoso di una villa contemporanea"
+          initial={reducedMotion ? false : { scale: 1.08 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: reducedMotion ? 0 : 1.5, ease: [0.22, 1, 0.36, 1] }}
+        />
+        <div className="location-cinema-shade" />
+        <div className="shell location-cinema-copy">
+          <p className="eyebrow eyebrow-light">La scena del tuo evento</p>
+          <h1>Un luogo giusto si sente prima ancora di riempirlo.</h1>
+          <p>Atmosfera e bellezza contano. Ma è il modo in cui lo spazio accoglie persone, tempi e servizi a renderlo davvero adatto.</p>
+          <a href="#spazi" className="location-scroll-link">Esplora gli spazi <ArrowDown size={18} aria-hidden="true" /></a>
         </div>
       </header>
 
-      <section className="section-pad location-catalogue-v2">
-        <div className="shell">
-          <div className="demo-note"><span>Contenuto demo</span><p>Le fotografie mostrano categorie di spazio. Nomi, sale, capienze e lavori realizzati verranno inseriti solo con materiali verificati.</p></div>
-          <div className="location-story-list">
+      <section className="section location-editorial" id="spazi">
+        <div className="container">
+          <SectionIntro
+            eyebrow="Quattro atmosfere"
+            title="Non scegliamo uno sfondo. Scegliamo una possibilità."
+            text="Ogni tipologia cambia il ritmo della giornata, il modo in cui gli ospiti si muovono e la libertà del progetto."
+          />
+          <div className="location-editorial-grid">
             {locations.map((location, index) => (
-              <Reveal className={`location-story location-story-${location.slug}`} key={location.slug}>
-                <figure><img src={location.image} alt={location.imageAlt} loading="lazy" /><figcaption>Immagine rappresentativa</figcaption></figure>
-                <div className="location-story-copy">
-                  <span className="location-story-icon"><LocationIcon slug={location.slug} /></span>
-                  <p className="eyebrow">Tipologia</p>
-                  <h2>{location.title}</h2>
-                  <p>{location.description}</p>
-                  <div className="location-story-uses"><strong>Funziona per</strong><span>{location.suitableFor.slice(0, 4).join(' · ')}</span></div>
-                  <Link className="text-link" to={`/location/${location.slug}`}>Vedi scenari e verifiche <ArrowUpRight size={17} aria-hidden="true" /></Link>
-                </div>
-                <span className="location-story-word" aria-hidden="true">{index % 2 === 0 ? 'spazio' : 'ritmo'}</span>
+              <Reveal className={`location-editorial-card location-editorial-card-${index + 1}`} key={location.slug}>
+                <Link to={`/location/${location.slug}`}>
+                  <figure><img src={location.image} alt={location.imageAlt} loading="lazy" /></figure>
+                  <div className="location-editorial-copy">
+                    <LocationIcon slug={location.slug} />
+                    <div><h2>{location.title}</h2><p>{location.summary}</p></div>
+                    <ArrowUpRight aria-hidden="true" />
+                  </div>
+                </Link>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section-pad location-criteria-v2">
-        <div className="shell selection-layout">
-          <SectionIntro eyebrow="Prima della proposta" title="Sei verifiche che evitano sorprese operative." text="Questi dati vengono incrociati con formato dell’evento, budget e servizi richiesti." />
-          <div className="selection-board">
-            {checks.map(({ icon: Icon, title, text }, index) => <Reveal key={title} className={`selection-item selection-item-${index + 1}`}><Icon aria-hidden="true" /><div><h3>{title}</h3><p>{text}</p></div></Reveal>)}
+      <section className="section location-criteria-immersive">
+        <div className="container criteria-layout">
+          <div className="criteria-sticky">
+            <p className="section-kicker">Prima di proporti un luogo</p>
+            <h2>La bellezza deve reggere la realtà.</h2>
+            <p>Incrociamo ogni desiderio con sei verifiche concrete. È così che uno spazio suggestivo diventa una scelta solida.</p>
+          </div>
+          <div className="criteria-list">
+            {checks.map(({ icon: Icon, title, text }) => (
+              <motion.article
+                key={title}
+                initial={reducedMotion ? false : { opacity: 0.3, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ amount: 0.7 }}
+              >
+                <Icon aria-hidden="true" />
+                <div><h3>{title}</h3><p>{text}</p></div>
+              </motion.article>
+            ))}
           </div>
         </div>
       </section>
-      <ClosingCta title="Cerchiamo lo spazio adatto al tuo evento." text="Indicaci zona, invitati e atmosfera. NIRA restringe la ricerca alle tipologie compatibili." />
+
+      <ClosingCta title="Troviamo uno spazio capace di sostenere la tua idea." text="Indicaci zona, invitati e atmosfera. NIRA seleziona soltanto le possibilità realmente compatibili." />
     </>
   )
 }

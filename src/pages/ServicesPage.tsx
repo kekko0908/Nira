@@ -16,12 +16,12 @@ export default function ServicesPage() {
     <>
       <PageMeta title="Servizi" description="Event design, musica, immagine, tecnica, food e grafica coordinati da NIRA." />
 
-      <header className="services-page-hero">
+      <header className="services-page-hero immersive-page-hero">
         <div className="shell services-page-hero-grid">
           <div>
-            <p className="eyebrow eyebrow-light">Servizi e professionisti</p>
-            <h1>Sei competenze. Un progetto coordinato.</h1>
-            <p>NIRA seleziona le figure necessarie, assegna tempi e responsabilità, collega ogni servizio alla location e alla scaletta.</p>
+            <p className="eyebrow eyebrow-light">Una regia, tutte le competenze</p>
+            <h1>Ogni professionista entra in scena al momento giusto.</h1>
+            <p>NIRA compone la squadra, assegna tempi e responsabilità e trasforma servizi diversi in un’esperienza coerente.</p>
           </div>
           <div className="services-orbit" aria-label="Le sei aree di servizio">
             {services.map((service) => <span key={service.slug}><ServiceIcon slug={service.slug} /><small>{service.title}</small></span>)}
@@ -31,7 +31,7 @@ export default function ServicesPage() {
 
       <section className="service-stories section-pad">
         <div className="shell service-atlas-heading">
-          <SectionIntro eyebrow="L’atlante dei servizi" title="Tocca un’area. Guarda subito cosa mette in moto." text="Sei competenze connesse dalla stessa regia: scegli un’area per vedere attività, figure e ruolo nel progetto." />
+          <SectionIntro eyebrow="L’atlante dei servizi" title="Una visione d’insieme, sei aree da esplorare." text="Scegli un’area per vedere attività, figure e ruolo nel progetto. Il risultato resta sempre uno: un evento che parla la stessa lingua." />
         </div>
         <div className="shell service-atlas">
           <div className="service-atlas-nav" role="tablist" aria-label="Aree di servizio">
@@ -45,7 +45,7 @@ export default function ServicesPage() {
                 onClick={() => setActiveIndex(index)}
                 onMouseEnter={() => setActiveIndex(index)}
               >
-                <span>0{index + 1}</span><ServiceIcon slug={service.slug} /><strong>{service.title}</strong><ArrowUpRight aria-hidden="true" />
+                <ServiceIcon slug={service.slug} /><strong>{service.title}</strong><ArrowUpRight aria-hidden="true" />
               </button>
             ))}
           </div>

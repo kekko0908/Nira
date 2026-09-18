@@ -1,49 +1,82 @@
-import { ClosingCta, PageMeta, Reveal, SectionIntro } from '../components/Shared'
+import { ArrowDown } from 'lucide-react'
+import { motion, useReducedMotion } from 'motion/react'
+import { ClosingCta, PageMeta, Reveal } from '../components/Shared'
 import { founders, processSteps } from '../data/content'
 
 export default function AboutPage() {
+  const reducedMotion = useReducedMotion()
+
   return (
     <>
-      <PageMeta title="Chi siamo" description="Antonello Di Fraia e Federico Caldora uniscono relazioni, progettazione creativa e produzione in NIRA." />
+      <PageMeta title="Chi siamo" description="Antonello Di Fraia e Federico Caldora: relazione, creatività e produzione in un’unica regia." />
 
-      <header className="about-hero">
-        <div className="shell about-hero-grid">
-          <div className="about-hero-copy"><p className="eyebrow">Chi siamo</p><h1>Relazioni e produzione, nello stesso progetto.</h1><p>Antonello cura consulenza, accordi e partnership. Federico sviluppa il concept e coordina la produzione. Il cliente mantiene un confronto diretto durante tutto il lavoro.</p></div>
-          <figure><span className="about-word" aria-hidden="true">NIRA</span><img src="/images/founders.webp" alt="Antonello Di Fraia e Federico Caldora" fetchPriority="high" /></figure>
+      <header className="about-editorial-hero">
+        <div className="about-editorial-mark" aria-hidden="true">NIRA</div>
+        <div className="shell about-editorial-copy">
+          <p className="eyebrow">Chi siamo</p>
+          <h1>Le idee prendono forma quando qualcuno si assume la regia.</h1>
+          <p>Antonello e Federico uniscono relazione, visione creativa e produzione. Il cliente resta vicino alle decisioni, senza dover inseguire ogni dettaglio.</p>
+          <a href="#persone" aria-label="Conosci le persone dietro NIRA"><ArrowDown aria-hidden="true" /></a>
         </div>
       </header>
 
-      <section className="section-pad name-story-v2">
-        <div className="shell name-origin-layout">
-          <Reveal className="name-origin-copy"><p className="eyebrow">Il nome</p><h2>Due significati descrivono il modo in cui lavoriamo.</h2><p>Nel racconto del brand, NIRA unisce l’idea di tessitura alla ricerca di un risultato essenziale e curato.</p></Reveal>
-          <div className="name-orbit" aria-label="I due significati del nome NIRA">
-            <Reveal className="name-orbit-item name-orbit-violet"><span>Tessitura</span><p>Fili diversi prendono forma quando persone, servizi e tempi seguono lo stesso disegno.</p><small>Radice ebraica</small></Reveal>
-            <Reveal className="name-orbit-item name-orbit-green" delay={0.1}><span>Purezza</span><p>Ogni scelta resta leggibile, utile al progetto e coerente con l’occasione.</p><small>Radice sanscrita</small></Reveal>
-            <div className="name-orbit-core" aria-hidden="true">NIRA</div>
+      <section className="section about-manifesto">
+        <div className="container about-manifesto-grid">
+          <Reveal className="about-manifesto-quote">
+            <p>“Un evento non è una somma di fornitori. È un’esperienza con un ritmo, una voce e una responsabilità chiara.”</p>
+          </Reveal>
+          <Reveal className="about-manifesto-copy" delay={0.1}>
+            <p className="section-kicker">Il nostro modo</p>
+            <h2>Ascolto e produzione siedono allo stesso tavolo.</h2>
+            <p>La relazione con le persone e la progettazione creativa non sono due momenti separati. Ogni scelta viene letta insieme alle altre, così il progetto resta coerente e realizzabile.</p>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="section about-people" id="persone">
+        <div className="container">
+          <div className="about-people-heading"><p className="section-kicker">Le persone</p><h2>Competenze diverse, presenza condivisa.</h2></div>
+          <div className="about-people-grid">
+            {founders.map((founder, index) => {
+              const initials = founder.name.split(' ').map((part) => part[0]).join('')
+              return (
+                <Reveal className="about-person" key={founder.name} delay={index * 0.1}>
+                  <div className="about-person-portrait">
+                    <motion.span
+                      initial={reducedMotion ? false : { rotate: -8, opacity: 0 }}
+                      whileInView={{ rotate: 0, opacity: 1 }}
+                      viewport={{ once: true }}
+                    >{initials}</motion.span>
+                    <small>Ritratto in arrivo</small>
+                  </div>
+                  <div className="about-person-copy"><p>{founder.role}</p><h3>{founder.name}</h3><span>{founder.text}</span></div>
+                </Reveal>
+              )
+            })}
           </div>
         </div>
       </section>
 
-      <section className="brand-colors section-pad">
-        <div className="shell brand-colors-grid">
-          <Reveal className="brand-color-stage"><span className="manifesto-number">02</span><p>Due esperienze.<br />Un solo modo<br />di creare.</p><div className="manifesto-orbit" aria-hidden="true"><span /><span /></div></Reveal>
-          <Reveal className="brand-colors-copy" delay={0.1}><p className="eyebrow eyebrow-light">Il nostro modo</p><h2>Le idee diventano belle quando funzionano insieme.</h2><p>La relazione con le persone e la progettazione creativa non sono due momenti separati. Ascolto, concept e produzione restano nello stesso tavolo di lavoro.</p><blockquote>Un evento non è una somma di fornitori. È un’esperienza con un ritmo, una voce e una responsabilità chiara.</blockquote></Reveal>
-        </div>
-      </section>
-
-      <section className="section-pad founder-profiles founder-profiles-v2">
-        <div className="shell">
-          <SectionIntro eyebrow="Competenze complementari" title="Due responsabilità chiare, un confronto condiviso." />
-          <div className="profile-grid profile-grid-v2">
-            {founders.map((founder, index) => <Reveal key={founder.name} className={`profile-card profile-card-${index + 1}`} delay={index * 0.1}><h2>{founder.name}</h2><h3>{founder.role}</h3><p>{founder.text}</p></Reveal>)}
+      <section className="section about-flow">
+        <div className="container about-flow-layout">
+          <div><p className="section-kicker">Una presenza continua</p><h2>Dal primo confronto alla regia sul posto.</h2></div>
+          <div className="about-flow-list">
+            {processSteps.map((step) => (
+              <motion.article
+                key={step.title}
+                initial={reducedMotion ? false : { opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.6 }}
+              >
+                <span aria-hidden="true" />
+                <div><h3>{step.title}</h3><p>{step.text}</p></div>
+              </motion.article>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="section-pad about-process">
-        <div className="shell"><SectionIntro eyebrow="Responsabilità condivisa" title="NIRA resta presente in ogni fase." /><div className="about-process-list">{processSteps.map((step) => <Reveal key={step.index}><span>{step.index}</span><div><h3>{step.title}</h3><p>{step.text}</p></div></Reveal>)}</div></div>
-      </section>
-      <ClosingCta />
+      <ClosingCta title="Raccontaci cosa stai immaginando." text="Ti rispondiamo con domande concrete e una prima direzione possibile." />
     </>
   )
 }

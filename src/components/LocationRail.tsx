@@ -13,7 +13,6 @@ export default function LocationRail() {
             <Link to={`/location/${location.slug}`}>
               <img src={location.image} alt={location.imageAlt} loading="lazy" />
               <div className="location-slide-shade" />
-              <span className="location-slide-number">0{index + 1}</span>
               <div className="location-slide-copy">
                 <span className="location-slide-icon"><LocationIcon slug={location.slug} /></span>
                 <div>

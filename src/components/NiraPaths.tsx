@@ -10,7 +10,6 @@ export default function NiraPaths({ withAction = false }: { withAction?: boolean
       {niraPaths.map((path, index) => (
         <Reveal className="path-option" key={path.name} delay={index * 0.06}>
           <div className="path-option-top">
-            <span className="path-option-number">0{index + 1}</span>
             <div className="path-option-icon"><PathIcon name={path.name} /></div>
             <div className="path-option-name">{path.name}</div>
           </div>
