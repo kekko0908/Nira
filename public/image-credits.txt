@@ -1,0 +1,42 @@
+NIRA demo - crediti immagini rappresentative
+
+Le immagini elencate sono usate come materiale dimostrativo e non rappresentano eventi realizzati da NIRA.
+Fonte: Unsplash, secondo la licenza disponibile al momento del download.
+
+hero-wedding.webp
+https://unsplash.com/photos/1519225421980-715cb0215aed
+
+banquet.webp
+https://unsplash.com/photos/1519167758481-83f550bb49b3
+
+celebration.webp
+https://unsplash.com/photos/1527529482837-4698179dc6ce
+
+music.webp
+https://unsplash.com/photos/1492684223066-81342ee5ff30
+
+baby.webp
+https://unsplash.com/photos/1516627145497-ae6968895b74
+
+business.webp
+https://unsplash.com/photos/1505373877841-8d25f7d46678
+
+villa.webp
+https://unsplash.com/photos/1600607687939-ce8a6c25118c
+
+terrace.webp
+https://unsplash.com/photos/1550966871-3ed3cdb5ed0c
+
+boat.webp
+https://unsplash.com/photos/1569263979104-865ab7cd8d13
+
+club.webp
+https://unsplash.com/photos/1514525253161-7a46d19cd819
+
+food.webp
+https://unsplash.com/photos/1555244162-803834f70033
+
+details.webp
+https://unsplash.com/photos/1507504031003-b417219a0fde
+
+Il logo provvisorio e la fotografia dei fondatori sono estratti dal documento Brand.pdf fornito per il progetto.
