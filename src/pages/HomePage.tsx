@@ -1,289 +1,60 @@
 import { useState } from 'react'
-import { ArrowDown, ArrowUpRight } from 'lucide-react'
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { Link } from 'react-router-dom'
 import BriefForm from '../components/BriefForm'
-import { EventIcon, ServiceIcon } from '../components/BrandIcon'
-import LocationRail from '../components/LocationRail'
 import NiraPaths from '../components/NiraPaths'
-import { PageMeta, Reveal, SectionIntro, TextLink } from '../components/Shared'
-import { eventCategories, founders, processSteps, services } from '../data/content'
+import { PageMeta, Reveal, SectionIntro } from '../components/Shared'
+import { eventCategories, founders, locations, processSteps, services } from '../data/content'
+import '../home-redesign.css'
 
-function ImmersiveHero() {
-  const [activeIndex, setActiveIndex] = useState(1)
-  const reducedMotion = useReducedMotion()
-  const activeEvent = eventCategories[activeIndex]
+function HomeHero() {
+  const [active, setActive] = useState(1)
+  const reduced = useReducedMotion()
+  const event = eventCategories[active]
+  return <header className="home-stage" aria-labelledby="home-title">
+    <div className="home-stage-media" aria-hidden="true"><AnimatePresence initial={false}>{<motion.img key={event.slug} src={event.image} alt="" fetchPriority="high" initial={{ opacity: 0, scale: reduced ? 1 : 1.04 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduced ? 0 : .8 }} />}</AnimatePresence></div>
+    <div className="home-stage-shade" /><motion.svg className="home-stage-thread" viewBox="0 0 300 900" preserveAspectRatio="none" aria-hidden="true"><motion.path d="M 180 -30 C -80 190, 350 300, 160 510 S 10 760, 220 930" fill="none" stroke="currentColor" strokeWidth="1" initial={reduced?false:{pathLength:0,opacity:0}} animate={{pathLength:1,opacity:.4}} transition={{duration:2.4,ease:'easeInOut'}} /></motion.svg>
+    <div className="shell home-stage-content">
 
-  return (
-    <section className="immersive-hero" aria-labelledby="home-title">
-      <div className="immersive-hero-media" aria-hidden="true">
-        <AnimatePresence mode="sync">
-          <motion.img
-            key={activeEvent.slug}
-            src={activeEvent.image}
-            alt=""
-            initial={reducedMotion ? false : { opacity: 0, scale: 1.04 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={reducedMotion ? undefined : { opacity: 0 }}
-            transition={{ duration: reducedMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
-          />
-        </AnimatePresence>
-      </div>
-      <div className="immersive-hero-shade" aria-hidden="true" />
+      <motion.div initial={reduced ? false : { opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{duration:.8}}><h1 id="home-title">Tu vivilo.<br /><em>Noi facciamolo</em><br /><span>accadere.</span></h1></motion.div>
+      <div className="home-stage-description"><p>Le tue persone. La tua atmosfera.<br />Una regia che tiene insieme ogni dettaglio.</p><Link to="/contatti"><span>Diamo forma alla tua idea</span><span className="home-cta-arrow"><ArrowUpRight size={22} /></span></Link></div>
+      <div className="home-stage-bottom"><a href="#eventi" className="home-stage-scroll"><ArrowDown size={20} /><span>Entra nel mondo NIRA</span></a><div className="home-stage-picker" aria-label="Scegli l’atmosfera dell’anteprima">{eventCategories.map((item,index)=><button key={item.slug} type="button" aria-pressed={active===index} onClick={()=>setActive(index)}>{item.label}<span /></button>)}</div></div>
+    </div>
 
-      <div className="container immersive-hero-content">
-        <motion.div
-          className="hero-copy"
-          initial={reducedMotion ? false : { opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: reducedMotion ? 0 : 0.8, delay: 0.12 }}
-        >
-          <h1 id="home-title">
-            <span>Il tuo evento, </span><span>seguito dall’idea </span><span>alla regia.</span>
-          </h1>
-          <p>
-            Un’unica direzione creativa per dare forma a persone, spazi e dettagli. Tu vivi il momento,
-            NIRA tiene insieme tutto il resto.
-          </p>
-          <Link className="button button-light" to="/contatti">
-            Raccontaci il tuo evento <ArrowUpRight size={17} aria-hidden="true" />
-          </Link>
-        </motion.div>
-
-        <div className="hero-event-explorer">
-          <div className="hero-event-intro">
-            <span>Esplora per tipo di evento</span>
-            <motion.p
-              key={activeEvent.slug}
-              initial={reducedMotion ? false : { opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              {activeEvent.summary}
-            </motion.p>
-          </div>
-          <div className="hero-event-tabs" role="tablist" aria-label="Tipi di evento">
-            {eventCategories.map((event, index) => (
-              <button
-                className={index === activeIndex ? 'hero-event-tab is-active' : 'hero-event-tab'}
-                key={event.slug}
-                type="button"
-                role="tab"
-                aria-selected={index === activeIndex}
-                onClick={() => setActiveIndex(index)}
-                onMouseEnter={() => setActiveIndex(index)}
-              >
-                <EventIcon slug={event.slug} />
-                <span>{event.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <a className="hero-scroll" href="#eventi" aria-label="Scopri gli eventi">
-          <ArrowDown size={18} aria-hidden="true" />
-        </a>
-      </div>
-    </section>
-  )
+  </header>
+}
+function HomeEvents() {
+  return <section className="home-worlds" id="eventi"><div className="shell"><div className="home-heading-row"><Reveal><p className="home-kicker">Un’occasione. Mille possibilità.</p><h2>Non seguiamo un copione.<br /><em>Seguiamo te.</em></h2></Reveal><p>C’è chi sogna una festa senza orari.<br />Chi un sì, chi un nuovo inizio.<br />Noi partiamo da lì.</p></div><div className="home-world-grid">{eventCategories.map((event,index)=><Reveal key={event.slug} className={`home-world home-world-${index}`} delay={index%2*.1}><Link to={`/eventi/${event.slug}`}><figure><img src={event.image} alt={event.imageAlt} loading="lazy" /><span>Esplora <ArrowUpRight size={20} /></span></figure><div><h3>{event.label}</h3><p>{event.summary}</p></div></Link></Reveal>)}</div></div></section>
 }
 
-function EditorialEvents() {
-  return (
-    <section className="section editorial-events" id="eventi">
-      <div className="container">
-        <SectionIntro
-          eyebrow="Ogni occasione cambia il ritmo"
-          title="Quattro punti di partenza. Nessuna formula già scritta."
-          text="Partiamo da ciò che stai immaginando e costruiamo un progetto capace di somigliarti davvero."
-        />
-
-        <div className="editorial-event-grid">
-          {eventCategories.map((event, index) => (
-            <Reveal className={`editorial-event-card editorial-event-card-${index + 1}`} key={event.slug}>
-              <Link to={`/eventi/${event.slug}`} aria-label={`Scopri ${event.label}`}>
-                <div className="editorial-event-image image-reveal">
-                  <img src={event.image} alt={event.imageAlt} loading="lazy" />
-                </div>
-                <div className="editorial-event-copy">
-                  <p>{event.eyebrow}</p>
-                  <h3>{event.title}</h3>
-                  <span>
-                    Apri il percorso <ArrowUpRight size={17} aria-hidden="true" />
-                  </span>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
+function HomeMethod() {
+  return <section className="home-route"><div className="shell"><div className="home-heading-row"><div><p className="home-kicker">Il metodo, dietro la magia</p><h2>Le idee prendono vita.<br /><em>Un passo alla volta.</em></h2></div><Link to="/chi-siamo" className="home-line-link">Il nostro approccio <ArrowUpRight size={18} /></Link></div><div className="home-route-steps">{processSteps.map((step,index)=><Reveal key={step.title} delay={index*.1}><h3>{step.title}</h3><p>{step.text}</p></Reveal>)}</div></div></section>
 }
 
-function MethodJourney() {
-  const reducedMotion = useReducedMotion()
-
-  return (
-    <section className="section method-journey">
-      <div className="container method-layout">
-        <div className="method-sticky">
-          <p className="section-kicker">Il metodo NIRA</p>
-          <h2>Un processo che diventa regia.</h2>
-          <p>Ogni passaggio prepara il successivo. Una linea continua, dal primo ascolto al giorno dell’evento.</p>
-          <TextLink to="/chi-siamo">Conosci il nostro approccio</TextLink>
-        </div>
-
-        <div className="method-track">
-          <motion.div
-            className="method-progress"
-            initial={reducedMotion ? false : { scaleY: 0 }}
-            whileInView={{ scaleY: 1 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: reducedMotion ? 0 : 1.2, ease: [0.22, 1, 0.36, 1] }}
-          />
-          {processSteps.map((step) => (
-            <motion.article
-              className="method-step"
-              key={step.title}
-              initial={reducedMotion ? false : { opacity: 0.25, x: 24 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ amount: 0.65 }}
-              transition={{ duration: reducedMotion ? 0 : 0.45 }}
-            >
-              <span className="method-dot" aria-hidden="true" />
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
-            </motion.article>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
+function HomeServices() {
+  const [active, setActive] = useState(0)
+  const reduced = useReducedMotion()
+  const service = services[active]
+  return <section className="home-studio"><div className="shell"><div className="home-heading-row"><div><p className="home-kicker">Dentro lo studio NIRA</p><h2>Il dettaglio giusto.<br /><em>Al momento giusto.</em></h2></div><p>Design, musica, luce, ospitalità.<br />Competenze diverse, un’unica direzione.</p></div><div className="home-studio-layout"><div className="home-studio-menu">{services.map((item,index)=><button type="button" key={item.slug} aria-pressed={active===index} onClick={()=>setActive(index)}><span>{item.title}</span><ArrowUpRight size={18} /></button>)}</div><div className="home-studio-preview"><div className="home-studio-photo"><AnimatePresence initial={false}><motion.img key={service.slug} src={service.image} alt={`Ispirazione per ${service.title}`} initial={{opacity:0, x:reduced?0:20}} animate={{opacity:1,x:0}} exit={{opacity:0}} transition={{duration:reduced?0:.45}} /></AnimatePresence></div><div className="home-studio-caption" aria-live="polite"><h3>{service.title}</h3><p>{service.summary}</p><Link to={`/servizi#${service.slug}`} className="home-line-link">Dentro questa competenza <ArrowUpRight size={18} /></Link></div></div></div></div></section>
 }
 
-function ServiceSpotlight() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const reducedMotion = useReducedMotion()
-  const activeService = services[activeIndex]
-
-  return (
-    <section className="section service-spotlight-section">
-      <div className="container">
-        <SectionIntro
-          eyebrow="Servizi e professionisti"
-          title="Le competenze entrano in scena come un unico insieme."
-          text="Non un catalogo di fornitori, ma una squadra costruita intorno al progetto e coordinata da un’unica regia."
-        />
-
-        <div className="service-spotlight">
-          <div className="service-spotlight-media">
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={activeService.slug}
-                src={activeService.image}
-                alt=""
-                initial={reducedMotion ? false : { opacity: 0, scale: 1.03 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={reducedMotion ? undefined : { opacity: 0 }}
-                transition={{ duration: reducedMotion ? 0 : 0.45 }}
-              />
-            </AnimatePresence>
-            <motion.div
-              className="service-spotlight-caption"
-              key={`${activeService.slug}-caption`}
-              initial={reducedMotion ? false : { opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <p>{activeService.summary}</p>
-              <Link to={`/servizi#${activeService.slug}`}>
-                Scopri quest’area <ArrowUpRight size={16} aria-hidden="true" />
-              </Link>
-            </motion.div>
-          </div>
-
-          <div className="service-spotlight-list" role="tablist" aria-label="Aree di lavoro">
-            {services.map((service, index) => (
-              <button
-                className={index === activeIndex ? 'service-spotlight-button is-active' : 'service-spotlight-button'}
-                key={service.slug}
-                type="button"
-                role="tab"
-                aria-selected={index === activeIndex}
-                onClick={() => setActiveIndex(index)}
-                onMouseEnter={() => setActiveIndex(index)}
-              >
-                <ServiceIcon slug={service.slug} />
-                <span>{service.title}</span>
-                <ArrowUpRight size={17} aria-hidden="true" />
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  )
+function HomeLocations() {
+  const [active,setActive] = useState(1)
+  const location = locations[active]
+  const reduced = useReducedMotion()
+  return <section className="home-destination"><div className="shell home-destination-layout"><div className="home-destination-copy"><p className="home-kicker">Coordinate per un ricordo</p><h2>Ci vediamo<br /><em>in un posto speciale.</em></h2><p>Dal giardino alla pista, dalla terrazza al mare. Troviamo lo spazio che dà respiro alla tua idea.</p><Link to="/location" className="home-line-link">Esplora le location <ArrowUpRight size={18} /></Link><div className="home-destination-controls"><button type="button" aria-label="Location precedente" onClick={()=>setActive((active+locations.length-1)%locations.length)}><ArrowLeft size={20} /></button><span>0{active+1} / 0{locations.length}</span><button type="button" aria-label="Location successiva" onClick={()=>setActive((active+1)%locations.length)}><ArrowRight size={20} /></button></div></div><Link className="home-destination-postcard" to={`/location/${location.slug}`}><motion.img key={location.slug} src={location.image} alt={location.imageAlt} initial={reduced?false:{opacity:.5}} animate={{opacity:1}} transition={{duration:.4}} /><div aria-live="polite"><span>Campania / {location.title}</span><ArrowUpRight size={24} /></div><small>Immagine d’ispirazione</small></Link></div></section>
 }
 
-function FoundersSection() {
-  return (
-    <section className="section founders-editorial">
-      <div className="container">
-        <SectionIntro
-          eyebrow="Dietro la regia"
-          title="Due sguardi, una sola direzione."
-          text="La relazione resta diretta: conosci chi immagina il progetto e chi ne protegge ogni passaggio."
-        />
-        <div className="founder-grid">
-          {founders.map((founder) => {
-            const initials = founder.name
-              .split(' ')
-              .map((part) => part[0])
-              .join('')
-            return (
-              <Reveal className="founder-profile" key={founder.name}>
-                <div className="founder-placeholder" aria-label={`Spazio ritratto di ${founder.name}`}>
-                  <span>{initials}</span>
-                  <p>Ritratto in arrivo</p>
-                </div>
-                <div className="founder-copy">
-                  <p>{founder.role}</p>
-                  <h3>{founder.name}</h3>
-                  <span>{founder.text}</span>
-                </div>
-              </Reveal>
-            )
-          })}
-        </div>
-      </div>
-    </section>
-  )
+function HomePeople() {
+  return <section className="home-people"><div className="shell home-people-layout"><Reveal className="home-people-photo"><img src="/images/founders.webp" alt="Antonello Di Fraia e Federico Caldora, fondatori di NIRA" loading="lazy" /><span>Piacere, siamo NIRA.</span></Reveal><div><p className="home-kicker">Le persone dietro la regia</p><h2>Due sguardi.<br /><em>La stessa cura.</em></h2><p>Ci conosciamo, ascoltiamo, immaginiamo insieme. Il tuo progetto ha un volto, una voce e qualcuno su cui contare.</p><div className="home-people-names">{founders.map(founder=><div key={founder.name}><h3>{founder.name}</h3><p>{founder.role}</p></div>)}</div><Link to="/chi-siamo" className="home-line-link">Conosciamoci meglio <ArrowUpRight size={18} /></Link></div></div></section>
 }
 
 export default function HomePage() {
-  return (
-    <>
-      <PageMeta
-        title="NIRA — Event design e regia in Campania"
-        description="NIRA progetta e coordina eventi privati, matrimoni, NIRA Baby ed eventi business in Campania."
-      />
-      <ImmersiveHero />
-      <EditorialEvents />
-      <MethodJourney />
-      <ServiceSpotlight />
-
-      <section className="section locations-showcase">
-        <div className="container">
-          <SectionIntro
-            eyebrow="La location giusta"
-            title="Lo spazio non ospita soltanto l’evento. Ne cambia la storia."
-            text="Ville, terrazze, mare e architetture contemporanee: scegliamo luoghi capaci di sostenere davvero il concept."
-          />
-          <LocationRail />
-          <TextLink to="/location">Scopri come selezioniamo le location</TextLink>
-        </div>
-      </section>
-
-      <section className="section paths-page-section">
+  return <>
+    <PageMeta title="NIRA — Event design e regia in Campania" description="NIRA progetta e coordina eventi privati, matrimoni, NIRA Baby ed eventi business in Campania." />
+    <HomeHero /><HomeEvents /><HomeMethod /><HomeServices /><HomeLocations />
+      <section className="section paths-page-section" id="percorsi-nira">
         <div className="container">
           <SectionIntro
             eyebrow="Quanto vuoi affidare a NIRA?"
@@ -293,21 +64,8 @@ export default function HomePage() {
           <NiraPaths />
         </div>
       </section>
-      <FoundersSection />
-
-      <section className="section home-contact">
-        <div className="container home-contact-shell">
-          <div className="home-contact-copy">
-            <p className="section-kicker">Il primo passo è una conversazione</p>
-            <h2>Prima del progetto, vogliamo capire cosa conta per te.</h2>
-            <p>
-              Bastano pochi dettagli. Ti rispondiamo con domande utili, una direzione possibile e il prossimo passo
-              più sensato.
-            </p>
-          </div>
-          <BriefForm compact />
-        </div>
-      </section>
-    </>
-  )
+    <HomePeople />
+    <section className="home-invitation"><div className="shell home-invitation-layout"><div><p className="home-kicker">Qui comincia qualcosa di bello</p><h2>Hai già<br /><em>un’idea in testa?</em></h2><p>Anche se è solo una sensazione, ci basta per iniziare. Raccontaci chi ci sarà e cosa vorresti far vivere.</p><span className="home-invitation-note">Il primo passo è una conversazione.</span></div><BriefForm compact /></div></section>
+  </>
 }
+

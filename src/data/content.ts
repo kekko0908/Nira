@@ -43,6 +43,16 @@ export interface NiraPath {
   bestFor: string
 }
 
+export interface EventPageDetail {
+  intro: string
+  experienceTitle: string
+  experienceText: string
+  pillars: { title: string; text: string }[]
+  gallery: { image: string; alt: string; caption: string }[]
+  decisions: { title: string; text: string }[]
+  closing: string
+}
+
 export const eventCategories: EventCategory[] = [
   {
     slug: 'privati',
@@ -101,6 +111,97 @@ export const eventCategories: EventCategory[] = [
     locations: ['Locali e club', 'Ville e dimore', 'Ristoranti e terrazze'],
   },
 ]
+
+export const eventPageDetails: Record<string, EventPageDetail> = {
+  privati: {
+    intro: 'Il carattere viene prima del tema. Se la festa parla davvero di chi stiamo celebrando, gli ospiti lo capiscono appena entrano.',
+    experienceTitle: 'Costruiamo una serata che abbia il tuo ritmo.',
+    experienceText: 'Dall’arrivo degli invitati all’ultimo brano, ogni scelta accompagna un momento preciso. NIRA tiene insieme atmosfera, intrattenimento e ospitalità senza trasformare la festa in una scaletta rigida.',
+    pillars: [
+      { title: 'Identità della festa', text: 'Palette, allestimenti e dettagli raccontano la ricorrenza con un linguaggio personale e riconoscibile.' },
+      { title: 'Ritmo e intrattenimento', text: 'Musica, performance e sorprese vengono distribuite nella serata per mantenere energia e naturalezza.' },
+      { title: 'Ospitalità', text: 'Food, beverage, accoglienza e disposizione degli spazi vengono pensati intorno agli invitati.' },
+      { title: 'Ricordi', text: 'Foto, video e contenuti social documentano la festa senza invadere ciò che sta accadendo.' },
+    ],
+    gallery: [
+      { image: '/images/celebration.webp', alt: 'Ospiti che brindano durante una festa privata', caption: 'Condivisione' },
+      { image: '/images/music.webp', alt: 'Spettacolo e musica dal vivo durante un evento', caption: 'Energia' },
+      { image: '/images/food.webp', alt: 'Dettagli food preparati per un ricevimento', caption: 'Ospitalità' },
+    ],
+    decisions: [
+      { title: 'Chi festeggiamo?', text: 'Personalità, età e desideri definiscono il tono del progetto.' },
+      { title: 'Come vuoi viverla?', text: 'Cena, party, spettacolo o una sequenza che combina momenti diversi.' },
+      { title: 'Chi sarà con te?', text: 'Numero e composizione degli ospiti orientano spazio, servizi e ritmo.' },
+    ],
+    closing: 'La tua festa non deve assomigliare a un format. Deve assomigliare a te.',
+  },
+  matrimoni: {
+    intro: 'Il matrimonio è una giornata composta da molte scene e molte persone. Il nostro lavoro è dare a tutto la stessa voce, proteggendo tempo, emozione e qualità delle scelte.',
+    experienceTitle: 'Un solo progetto, dalla cerimonia alla festa.',
+    experienceText: 'Traduciamo il vostro modo di essere in un concept realizzabile e coordiniamo location, fornitori e ospiti perché possiate attraversare la giornata senza occuparvi della regia.',
+    pillars: [
+      { title: 'Concept e styling', text: 'Palette, fiori, mise en place, stationery e scenografia nascono da una direzione creativa comune.' },
+      { title: 'Cerimonia e ricevimento', text: 'Disegniamo passaggi, attese e cambi di atmosfera tra i diversi momenti della giornata.' },
+      { title: 'Ospiti e accoglienza', text: 'Transfer, seating, food e informazioni vengono organizzati per rendere ogni movimento semplice.' },
+      { title: 'Regia del giorno', text: 'Tempi, professionisti e imprevisti vengono coordinati sul posto da un referente NIRA.' },
+    ],
+    gallery: [
+      { image: '/images/hero-wedding.webp', alt: 'Tavolo apparecchiato per un matrimonio', caption: 'Il ricevimento' },
+      { image: '/images/banquet.webp', alt: 'Sala preparata per un ricevimento elegante', caption: 'La scena' },
+      { image: '/images/details.webp', alt: 'Dettagli coordinati per un evento', caption: 'I dettagli' },
+    ],
+    decisions: [
+      { title: 'Che atmosfera cercate?', text: 'Intima, conviviale, scenografica o essenziale: lo stile nasce dal vostro modo di stare insieme.' },
+      { title: 'Come si muove la giornata?', text: 'Cerimonia, aperitivo, cena e party devono avere continuità senza perdere spontaneità.' },
+      { title: 'Cosa volete delegare?', text: 'Definiamo fin dall’inizio decisioni, responsabilità e presenza operativa di NIRA.' },
+    ],
+    closing: 'Voi restate dentro la giornata. Noi restiamo dentro ogni dettaglio.',
+  },
+  'nira-baby': {
+    intro: 'Una festa per bambini deve parlare ai piccoli e funzionare per gli adulti. Età, tempi di attenzione, sicurezza e libertà di gioco guidano ogni scelta.',
+    experienceTitle: 'Il gioco diventa un mondo da attraversare.',
+    experienceText: 'Costruiamo una festa leggibile, colorata e coinvolgente senza riempire lo spazio di elementi casuali. Tema, attività, merenda e ricordi seguono la stessa storia.',
+    pillars: [
+      { title: 'Tema e scenografia', text: 'Balloon art, fondali, tavoli e dettagli trasformano lo spazio in un ambiente coerente, non in una semplice decorazione.' },
+      { title: 'Attività per età', text: 'Animatori, laboratori e giochi vengono scelti in base all’età, al gruppo e alla durata della festa.' },
+      { title: 'Accoglienza delle famiglie', text: 'Aree dedicate, catering kids e servizi per gli adulti rendono l’esperienza piacevole per tutti.' },
+      { title: 'Tempi e sicurezza', text: 'Flussi, pause, spazi e presenza dei professionisti vengono progettati intorno ai bambini.' },
+    ],
+    gallery: [
+      { image: '/images/baby.webp', alt: 'Bambina che gioca durante una festa', caption: 'La meraviglia' },
+      { image: '/images/details.webp', alt: 'Dettagli grafici e decorativi coordinati', caption: 'Il tema' },
+      { image: '/images/food.webp', alt: 'Preparazioni food per un evento', caption: 'La merenda' },
+    ],
+    decisions: [
+      { title: 'Quanti anni compie?', text: 'Età e autonomia cambiano linguaggi, attività e durata ideale.' },
+      { title: 'Cosa lo appassiona?', text: 'Partiamo da interessi reali per creare un tema personale e non intercambiabile.' },
+      { title: 'Come sarà composto il gruppo?', text: 'Numero dei bambini, famiglie presenti e spazio disponibile definiscono il formato.' },
+    ],
+    closing: 'Un ricordo bellissimo per loro. Una festa semplice da vivere per voi.',
+  },
+  business: {
+    intro: 'Un evento business deve produrre un effetto preciso: presentare, connettere, celebrare o posizionare. Il progetto nasce dall’obiettivo e prende forma nello spazio.',
+    experienceTitle: 'Il brand diventa un’esperienza dal vivo.',
+    experienceText: 'NIRA traduce messaggio, pubblico e risultato atteso in una regia concreta. Contenuti, tecnica e accoglienza lavorano insieme perché ogni ospite capisca dove si trova e perché.',
+    pillars: [
+      { title: 'Concept di marca', text: 'Format, linguaggio visivo e touchpoint rendono riconoscibile il brand in ogni momento dell’evento.' },
+      { title: 'Produzione tecnica', text: 'Audio, luci, ledwall, palco e contenuti vengono dimensionati sulla location e sulla scaletta.' },
+      { title: 'Pubblico e accoglienza', text: 'Inviti, accrediti, hostess, food e flussi sono progettati intorno agli ospiti attesi.' },
+      { title: 'Regia e contenuti', text: 'Speaker, contributi, performance e cambi scena seguono un piano operativo condiviso.' },
+    ],
+    gallery: [
+      { image: '/images/business.webp', alt: 'Presentazione aziendale su un grande palco', caption: 'Il messaggio' },
+      { image: '/images/club.webp', alt: 'Pubblico davanti a un palco illuminato', caption: 'La produzione' },
+      { image: '/images/details.webp', alt: 'Materiali grafici coordinati per un evento', caption: 'Il brand' },
+    ],
+    decisions: [
+      { title: 'Qual è il risultato?', text: 'Awareness, relazione, lancio o celebrazione richiedono format differenti.' },
+      { title: 'Chi deve essere coinvolto?', text: 'Pubblico, speaker, stakeholder e team interno definiscono contenuti e flussi.' },
+      { title: 'Cosa deve restare?', text: 'Progettiamo esperienza e contenuti pensando anche a ciò che vivrà dopo l’evento.' },
+    ],
+    closing: 'Un evento efficace non occupa soltanto uno spazio. Lascia un messaggio chiaro.',
+  },
+}
 
 export const services: ServiceCategory[] = [
   {

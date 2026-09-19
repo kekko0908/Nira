@@ -1,88 +1,28 @@
 import { useState } from 'react'
-import { ArrowUpRight, Check } from 'lucide-react'
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { ArrowDown, ArrowUpRight, Check, Plus } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { ServiceIcon } from '../components/BrandIcon'
-import NiraPaths from '../components/NiraPaths'
-import { ClosingCta, PageMeta, SectionIntro } from '../components/Shared'
+import { PageMeta, Reveal } from '../components/Shared'
 import { services } from '../data/content'
+import { AgencyCta } from '../components/Agency'
+import '../agency.css'
 
 export default function ServicesPage() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const reduceMotion = useReducedMotion()
-  const activeService = services[activeIndex]
-
-  return (
-    <>
-      <PageMeta title="Servizi" description="Event design, musica, immagine, tecnica, food e grafica coordinati da NIRA." />
-
-      <header className="services-page-hero immersive-page-hero">
-        <div className="shell services-page-hero-grid">
-          <div>
-            <p className="eyebrow eyebrow-light">Una regia, tutte le competenze</p>
-            <h1>Ogni professionista entra in scena al momento giusto.</h1>
-            <p>NIRA compone la squadra, assegna tempi e responsabilità e trasforma servizi diversi in un’esperienza coerente.</p>
-          </div>
-          <div className="services-orbit" aria-label="Le sei aree di servizio">
-            {services.map((service) => <span key={service.slug}><ServiceIcon slug={service.slug} /><small>{service.title}</small></span>)}
-          </div>
-        </div>
-      </header>
-
-      <section className="service-stories section-pad">
-        <div className="shell service-atlas-heading">
-          <SectionIntro eyebrow="L’atlante dei servizi" title="Una visione d’insieme, sei aree da esplorare." text="Scegli un’area per vedere attività, figure e ruolo nel progetto. Il risultato resta sempre uno: un evento che parla la stessa lingua." />
-        </div>
-        <div className="shell service-atlas">
-          <div className="service-atlas-nav" role="tablist" aria-label="Aree di servizio">
-            {services.map((service, index) => (
-              <button
-                key={service.slug}
-                type="button"
-                role="tab"
-                aria-selected={activeIndex === index}
-                className={activeIndex === index ? 'is-active' : ''}
-                onClick={() => setActiveIndex(index)}
-                onMouseEnter={() => setActiveIndex(index)}
-              >
-                <ServiceIcon slug={service.slug} /><strong>{service.title}</strong><ArrowUpRight aria-hidden="true" />
-              </button>
-            ))}
-          </div>
-          <div className="service-atlas-stage">
-            <AnimatePresence mode="wait">
-              <motion.article
-                className="service-atlas-panel"
-                key={activeService.slug}
-                role="tabpanel"
-                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduceMotion ? undefined : { opacity: 0, y: -10 }}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <figure><img src={activeService.image} alt={`Atmosfera rappresentativa per ${activeService.title}`} /><figcaption>Immagine rappresentativa</figcaption></figure>
-                <div className="service-atlas-content">
-                  <div className="service-atlas-title"><span className="service-story-icon"><ServiceIcon slug={activeService.slug} /></span><h2>{activeService.title}</h2></div>
-                  <p>{activeService.summary}</p>
-                  <div className="service-atlas-columns">
-                    <div><h3>Cosa attiva</h3><ul>{activeService.items.map((item) => <li key={item}><Check size={15} aria-hidden="true" />{item}</li>)}</ul></div>
-                    <div><h3>Chi entra in scena</h3><p>{activeService.professionals.join(' · ')}</p></div>
-                  </div>
-                  <Link className="text-link" to="/contatti">Costruiamo la tua combinazione <ArrowUpRight size={17} aria-hidden="true" /></Link>
-                </div>
-              </motion.article>
-            </AnimatePresence>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-pad paths-page-section paths-page-section-v2">
-        <div className="shell">
-          <SectionIntro eyebrow="Livello di supporto" title="Scegli quanto vuoi affidare a NIRA." text="Dal confronto iniziale alla regia completa: ogni percorso chiarisce responsabilità e perimetro del lavoro." />
-          <NiraPaths withAction />
-        </div>
-      </section>
-      <ClosingCta />
-    </>
-  )
+  const [open, setOpen] = useState<string | null>(() => window.location.hash.slice(1) || services[0].slug)
+  return <div className="agency agency-services">
+    <PageMeta title="Servizi" description="Design, musica, immagine, tecnica, food e dettagli: sei aree professionali, una regia NIRA." />
+    <header className="agency-service-hero"><div className="shell">
+      <Reveal><h1>Tu immagina.<br /><em>Noi orchestriamo.</em></h1></Reveal>
+      <div className="agency-service-intro"><span className="agency-star" aria-hidden="true">✳</span><p>Creatività, persone e produzione.<br />Tutto quello che serve al tuo evento,<br />tenuto insieme da un’unica visione.</p><a className="agency-round-link" href="#aree">Dentro il progetto <span><ArrowDown size={20} /></span></a></div>
+      <figure className="agency-service-photo"><img src="/images/banquet.webp" alt="Una sala allestita con tavoli e luci per un ricevimento" fetchPriority="high" /><figcaption>La cura si vede. La regia si sente.</figcaption></figure>
+    </div></header>
+    <section className="agency-services-section shell" id="aree">
+      <div className="agency-section-heading"><h2>Ogni dettaglio.<br /><em>Una direzione.</em></h2><p>Esplora le sei aree. Componiamo servizi e professionisti intorno al tuo progetto, ai tuoi ospiti e allo spazio che li accoglie.</p></div>
+      <div className="agency-accordion">{services.map((service) => <article id={service.slug} key={service.slug} className={open === service.slug ? 'is-open' : ''}>
+        <h3><button type="button" aria-expanded={open === service.slug} aria-controls={`panel-${service.slug}`} id={`trigger-${service.slug}`} onClick={() => setOpen(open === service.slug ? null : service.slug)}><span>{service.title}</span><Plus aria-hidden="true" /></button></h3>
+        <div className="service-expand" id={`panel-${service.slug}`} role="region" aria-labelledby={`trigger-${service.slug}`} aria-hidden={open !== service.slug} inert={open !== service.slug}><div className="service-expand-inner"><div className="agency-service-panel"><figure><img src={service.image} alt={`Ispirazione per ${service.title.toLowerCase()}`} loading="lazy" /><figcaption>Immagine d’ispirazione</figcaption></figure><div className="service-readable-copy"><p className="agency-service-summary">{service.summary}</p><h4>Cosa possiamo realizzare</h4><ul className="service-activities">{service.items.map(item => <li key={item}><Check size={17} aria-hidden="true" /><span>{item}</span></li>)}</ul><div className="service-team-box"><h4>I professionisti coinvolti</h4><ul>{service.professionals.map(person => <li key={person}>{person}</li>)}</ul></div><Link to="/contatti" className="agency-underlink">Parliamo di questa area <ArrowUpRight size={18} /></Link></div></div></div></div>
+      </article>)}</div>
+    </section>
+    <section className="agency-principles"><div className="shell"><p className="agency-label">Il nostro valore aggiunto</p><Reveal><h2>Molte competenze.<br /><em>Un solo filo.</em></h2></Reveal><div className="agency-principles-grid">{[{ title: 'Una squadra su misura', text: 'Scegliamo i professionisti in base al concept, allo spazio e alle esigenze reali del progetto.' }, { title: 'Una visione condivisa', text: 'Allestimenti, musica e accoglienza parlano la stessa lingua. Ogni scelta sostiene le altre.' }, { title: 'Una presenza concreta', text: 'Coordiniamo tempi, fornitori e passaggi sul posto. Tu puoi essere parte del tuo evento.' }].map((item, index) => <Reveal key={item.title} delay={index * 0.08}><h3>{item.title}</h3><p>{item.text}</p></Reveal>)}</div></div></section>
+    <AgencyCta />
+  </div>
 }
